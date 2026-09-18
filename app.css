@@ -56,6 +56,8 @@ Box Shadow: rgba(0, 0, 0, 0.15);
    /* Add color to magnify glass later */
 }
 
+/* ------------------------------------------------------- */
+
 /* City card dashbaord */
 
 .city-title {
@@ -100,4 +102,119 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   justify-content: right;
   align-items: center;
   font-size: 2rem;
+}
+
+/* ------------------------------------------------------- */
+
+/* Detail city information */
+.hidden {
+  display: grid;
+}
+
+/* Back Button */
+.back-btn {
+  background: none;
+  border-color: #6B7280;
+  margin-top: 2rem;
+  margin-left: 25%;
+  justify-self: start;
+  padding: 0.2rem 1rem;
+  font-size: 3rem;
+  border-radius: 1.2rem;
+  border: .2rem;
+  background-color: #f9fafb;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.05, 1.05);
+  box-shadow: 0px 4px 2px 0px var(--box-shadow);
+}
+
+/* Current forecast */
+.detail-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.detail-header h2,
+.detail-header p {
+  margin: 0; 
+  text-align: center;
+}
+
+.detail-city-temp {
+  font-size: 3rem;
+}
+
+/* .detail-city-conditons {
+  //Add more later 
+} */
+
+/* Forecast row */
+.forecast-row {
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  margin-top: 3rem;
+  justify-content: center; 
+}
+
+.forecast-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 0 0 auto;
+}
+
+.forecast-day-name {
+  font-size: 2rem;
+}
+
+.forecast-weather-img {
+  width: 2rem;
+  height: 2rem;
+}
+
+.forecast-temp {
+  font-size: 2rem;
+}
+
+
+/* Stats for the city */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 50%;
+  margin-inline: auto;
+}
+
+.stats-grid > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stats-grid p {
+  margin: 0.25rem; 
+}
+
+.feels-like,
+.precipitation {
+  align-items: flex-start;
+  text-align: left;
+  padding-right: 10rem;
+  font-size: 1.5rem;
+}
+
+.wind, 
+.air-quality {
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 10rem;
+  font-size: 1.5rem;
 }
