@@ -35,3 +35,22 @@ async function searchCity(cityName) {
 searchCity('Tokyo');
 
 
+const searchInput = document.querySelector('.js-search-bar');
+const searchBtn = document.querySelector('.js-search-btn')
+
+// Grabs the input value and triggers the city search
+function handleSearch() {
+  const cityName = searchInput.value.trim();
+  if (cityName) {
+    searchCity(cityName);
+  }
+}
+
+searchBtn.addEventListener('click',  handleSearch);
+
+
+searchInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    handleSearch();
+  }
+});

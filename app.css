@@ -70,7 +70,7 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   grid-template-columns: 1fr 2fr 1fr;
   justify-content: center;
   margin-top: 1rem;
-  max-width: 50%;
+  max-width: 25%;
   margin-inline: auto;
   background-color: #f9fafb;
   border-radius: 1.5rem;
@@ -107,8 +107,12 @@ Box Shadow: rgba(0, 0, 0, 0.15);
 /* ------------------------------------------------------- */
 
 /* Detail city information */
-.hidden {
+#detail-view {
   display: grid;
+}
+
+#detail-view.hidden {
+  display: none;
 }
 
 /* Back Button */
