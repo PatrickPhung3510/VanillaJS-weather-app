@@ -7,6 +7,10 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   --box-shadow: #f9fafb;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Header */
 .welcome-note {
   text-align: center;
@@ -54,6 +58,11 @@ Box Shadow: rgba(0, 0, 0, 0.15);
 .search-btn:hover {
    transform: translateY(-50%) scale(1.08); 
    /* Add color to magnify glass later */
+}
+
+.search-error {
+  text-align: center;
+  color: red;
 }
 
 /* ------------------------------------------------------- */

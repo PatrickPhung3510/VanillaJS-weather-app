@@ -1,3 +1,10 @@
+const searchInput = document.querySelector('.js-search-bar');
+const searchBtn = document.querySelector('.js-search-btn')
+const dashboard = document.querySelector('#dashboard-view');
+const detailView = document.querySelector('#detail-view');
+const errorEl = document.querySelector('.js-search-error');
+
+
 /* Fetches the coordinates for the city name, latitude, and longitude
   @param {string} cityName - The name of the city to look up
   @retunrs {PromiseObject} - the object containing the city name, 
@@ -28,16 +35,28 @@ async function getWeather(lat, lon) {
   @param {string} cityName - The name of the city to look up
 */
 async function searchCity(cityName) {
-  const cords = await getCoordinates(cityName);
-  const weather = await getWeather(cords.latitude, cords.longitude);
-  console.log(`Weather for ${cords.name}:`, weather);
+  try {
+    errorEl.classList.add('hidden');
+    const cords = await getCoordinates(cityName);
+    const weather = await getWeather(cords.latitude, cords.longitude);
+    console.log(`Weather for ${cords.name}:`, weather);
+    showDetailView();
+  } catch (error) {
+    console.error('Error fetching city data:', error);
+    errorEl.textContent = 'City not found. Please check the spelling and try again!';
+    errorEl.classList.remove('hidden');
+  }
 }
-searchCity('Tokyo');
 
+function showDetailView() {
+  dashboard.classList.add('hidden');
+  detailView.classList.remove('hidden');
+}
 
-const searchInput = document.querySelector('.js-search-bar');
-const searchBtn = document.querySelector('.js-search-btn')
-
+function showDashboard() {
+  dashboard.classList.remove('hidden');
+  detailView.classList.add('hidden');
+}
 // Grabs the input value and triggers the city search
 function handleSearch() {
   const cityName = searchInput.value.trim();
@@ -54,3 +73,5 @@ searchInput.addEventListener('keydown', (event) => {
     handleSearch();
   }
 });
+
+
