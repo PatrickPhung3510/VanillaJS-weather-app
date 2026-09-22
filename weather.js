@@ -3,7 +3,7 @@ const searchBtn = document.querySelector('.js-search-btn')
 const dashboard = document.querySelector('#dashboard-view');
 const detailView = document.querySelector('#detail-view');
 const errorEl = document.querySelector('.js-search-error');
-
+const backBtn = document.querySelector('.js-back-btn');
 
 /* Fetches the coordinates for the city name, latitude, and longitude
   @param {string} cityName - The name of the city to look up
@@ -30,6 +30,18 @@ async function getWeather(lat, lon) {
   return data;
 }
 
+// Hides the dashboard view and replaces the dashboard with the detail page
+function showDetailView() {
+  dashboard.classList.add('hidden');
+  detailView.classList.remove('hidden');
+}
+
+// Hides the detail view and replaces it with the dashboard
+function showDashboard() {
+  dashboard.classList.remove('hidden');
+  detailView.classList.add('hidden');
+}
+
 /* Searches the city by finding the cordinates of a city
       then fetches and logging its current weather
   @param {string} cityName - The name of the city to look up
@@ -48,15 +60,6 @@ async function searchCity(cityName) {
   }
 }
 
-function showDetailView() {
-  dashboard.classList.add('hidden');
-  detailView.classList.remove('hidden');
-}
-
-function showDashboard() {
-  dashboard.classList.remove('hidden');
-  detailView.classList.add('hidden');
-}
 // Grabs the input value and triggers the city search
 function handleSearch() {
   const cityName = searchInput.value.trim();
@@ -65,13 +68,15 @@ function handleSearch() {
   }
 }
 
+//Event Listeners 
 searchBtn.addEventListener('click',  handleSearch);
-
-
 searchInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     handleSearch();
   }
 });
+
+backBtn.addEventListener('click', showDashboard);
+
 
 
