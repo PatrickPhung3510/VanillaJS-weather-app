@@ -83,6 +83,7 @@ searchInput.addEventListener('keydown', (event) => {
 
 backBtn.addEventListener('click', showDashboard);
 
+// Get city name and fetches the data and displays it
 function renderDetailView(cords, weather) {
   const currentTemp = Math.round(weather.current_weather.temperature);
   const maxTemp = Math.round(weather.daily.temperature_2m_max[0]);
