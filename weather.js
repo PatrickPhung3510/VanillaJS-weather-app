@@ -4,6 +4,10 @@ const dashboard = document.querySelector('#dashboard-view');
 const detailView = document.querySelector('#detail-view');
 const errorEl = document.querySelector('.js-search-error');
 const backBtn = document.querySelector('.js-back-btn');
+const detailCityName = document.querySelector('.js-detail-city-name');
+const detailCityTemp = document.querySelector('.js-detail-city-temp');
+const detailCityConditions = document.querySelector('.js-detail-city-conditons');
+const detailCityHighlow = document.querySelector('.js-detail-city-highlow');
 
 /* Fetches the coordinates for the city name, latitude, and longitude
   @param {string} cityName - The name of the city to look up
@@ -25,7 +29,7 @@ async function getCoordinates(cityName) {
   @returns {PromiseObject} - An object containing the current forecast data
 */
 async function getWeather(lat, lon) {
-  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit`);
   const data = await response.json();
   return data;
 }
@@ -51,6 +55,9 @@ async function searchCity(cityName) {
     errorEl.classList.add('hidden');
     const cords = await getCoordinates(cityName);
     const weather = await getWeather(cords.latitude, cords.longitude);
+    const currentTemp = Math.round(weather.current_weather.temperature);
+    detailCityName.textContent = cords.name;
+    detailCityTemp.textContent = `${currentTemp}°`;
     console.log(`Weather for ${cords.name}:`, weather);
     showDetailView();
   } catch (error) {
