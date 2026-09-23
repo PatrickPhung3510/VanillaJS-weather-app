@@ -29,7 +29,7 @@ async function getCoordinates(cityName) {
   @returns {PromiseObject} - An object containing the current forecast data
 */
 async function getWeather(lat, lon) {
-  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit`);
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&daily=temperature_2m_max,temperature_2m_min&timezone=auto`);
   const data = await response.json();
   return data;
 }
@@ -55,9 +55,7 @@ async function searchCity(cityName) {
     errorEl.classList.add('hidden');
     const cords = await getCoordinates(cityName);
     const weather = await getWeather(cords.latitude, cords.longitude);
-    const currentTemp = Math.round(weather.current_weather.temperature);
-    detailCityName.textContent = cords.name;
-    detailCityTemp.textContent = `${currentTemp}°`;
+    renderDetailView(cords, weather);
     console.log(`Weather for ${cords.name}:`, weather);
     showDetailView();
   } catch (error) {
@@ -85,5 +83,37 @@ searchInput.addEventListener('keydown', (event) => {
 
 backBtn.addEventListener('click', showDashboard);
 
+function renderDetailView(cords, weather) {
+  const currentTemp = Math.round(weather.current_weather.temperature);
+  const maxTemp = Math.round(weather.daily.temperature_2m_max[0]);
+  const minTemp = Math.round(weather.daily.temperature_2m_min[0]);
+  detailCityName.textContent = cords.name;
+  detailCityTemp.textContent = `${currentTemp}°`;
+  detailCityConditions.textContent = 
+    getWeatherDescription(weather.current_weather.weathercode);
+  detailCityHighlow.textContent = `H:${maxTemp}° L:${minTemp}°`;
+}
 
+
+/*  Gets the city condition
+@returns {Object} - the conditions from the city 
+*/
+function getWeatherDescription(code) {
+  const conditions = {
+    0: 'Clear sky',
+    1: 'Mainly clear',
+    2: 'Partly cloudy',
+    3: 'Overcast',
+    45: 'Foggy',
+    51: 'Light drizzle',
+    61: 'Light rain',
+    63: 'Moderate rain',
+    65: 'Heavy rain',
+    71: 'Light snow',
+    73: 'Moderate snow',
+    75: 'Heavy snow',
+    95: 'Thunderstorm'
+  }
+  return conditions[code] || 'Unknown';
+}
 
