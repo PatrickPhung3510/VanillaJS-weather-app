@@ -66,6 +66,9 @@ async function searchCity(cityName) {
   }
 }
 
+/* Render the 10-day forecast on the detail view
+  @param {Object} weather - The weather data object returned by the API
+*/
 function renderForecast(weather) {
   const forecastRow = document.querySelector('.js-forecast-row');
 
