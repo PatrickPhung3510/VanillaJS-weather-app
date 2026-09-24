@@ -29,7 +29,7 @@ async function getCoordinates(cityName) {
   @returns {PromiseObject} - An object containing the current forecast data
 */
 async function getWeather(lat, lon) {
-  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&daily=temperature_2m_max,temperature_2m_min&timezone=auto`);
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto&forecast_days=10`);
   const data = await response.json();
   return data;
 }
@@ -56,6 +56,7 @@ async function searchCity(cityName) {
     const cords = await getCoordinates(cityName);
     const weather = await getWeather(cords.latitude, cords.longitude);
     renderDetailView(cords, weather);
+    renderForecast(weather);
     console.log(`Weather for ${cords.name}:`, weather);
     showDetailView();
   } catch (error) {
@@ -63,6 +64,26 @@ async function searchCity(cityName) {
     errorEl.textContent = 'City not found. Please check the spelling and try again!';
     errorEl.classList.remove('hidden');
   }
+}
+
+function renderForecast(weather) {
+  const forecastRow = document.querySelector('.js-forecast-row');
+
+  const foreCastHTML = weather.daily.time.map((date, index) => {
+    const dayName = new Date(date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short'});
+    const getWeatherCondition = getWeatherDescription(weather.daily.weathercode[index]);
+    const dayHigh = Math.round(weather.daily.temperature_2m_max[index]);
+    const dayLow = Math.round(weather.daily.temperature_2m_min[index]);
+
+    return `
+      <div class="forecast-day">
+         <p class="forecast-day-name">${dayName}</p>
+        <img class="forecast-weather-img" src="" alt="${getWeatherCondition}">
+        <p class="forecast-temp">${dayHigh}|${dayLow}</p>
+      </div>
+    `
+  }).join('');
+  forecastRow.innerHTML = foreCastHTML;
 }
 
 // Grabs the input value and triggers the city search
@@ -117,4 +138,3 @@ function getWeatherDescription(code) {
   }
   return conditions[code] || 'Unknown';
 }
-
