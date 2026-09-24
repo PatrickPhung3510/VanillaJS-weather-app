@@ -121,7 +121,7 @@ function renderDetailView(cords, weather) {
 
 
 /*  Gets the city condition
-@returns {Object} - the conditions from the city 
+@returns {String} - the conditions from the city 
 */
 function getWeatherDescription(code) {
   const conditions = {
