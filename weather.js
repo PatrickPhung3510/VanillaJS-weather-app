@@ -74,15 +74,15 @@ function renderForecast(weather) {
 
   const foreCastHTML = weather.daily.time.map((date, index) => {
     const dayName = new Date(date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short'});
-    const getWeatherCondition = getWeatherDescription(weather.daily.weathercode[index]);
+    const weatherCondition = getWeatherDescription(weather.daily.weathercode[index]);
     const dayHigh = Math.round(weather.daily.temperature_2m_max[index]);
     const dayLow = Math.round(weather.daily.temperature_2m_min[index]);
-
+    const iconURL = `https://api.iconify.design/wi/${weatherCondition.icon}.svg`;
     return `
       <div class="forecast-day">
          <p class="forecast-day-name">${dayName}</p>
-        <img class="forecast-weather-img" src="" alt="${getWeatherCondition}">
-        <p class="forecast-temp">${dayHigh}|${dayLow}</p>
+        <img class="forecast-weather-img" src="${iconURL}" alt="${weatherCondition.text}">
+        <p class="forecast-temp">${dayHigh} | ${dayLow}</p>
       </div>
     `
   }).join('');
@@ -115,29 +115,29 @@ function renderDetailView(cords, weather) {
   detailCityName.textContent = cords.name;
   detailCityTemp.textContent = `${currentTemp}°`;
   detailCityConditions.textContent = 
-    getWeatherDescription(weather.current_weather.weathercode);
+    getWeatherDescription(weather.current_weather.weathercode).text;
   detailCityHighlow.textContent = `H:${maxTemp}° L:${minTemp}°`;
 }
 
 
 /*  Gets the city condition
-@returns {String} - the conditions from the city 
+@returns {Object} - the conditions from the city and the image 
 */
 function getWeatherDescription(code) {
   const conditions = {
-    0: 'Clear sky',
-    1: 'Mainly clear',
-    2: 'Partly cloudy',
-    3: 'Overcast',
-    45: 'Foggy',
-    51: 'Light drizzle',
-    61: 'Light rain',
-    63: 'Moderate rain',
-    65: 'Heavy rain',
-    71: 'Light snow',
-    73: 'Moderate snow',
-    75: 'Heavy snow',
-    95: 'Thunderstorm'
+    0: {text: 'Clear sky', icon:'day-sunny'},
+    1: {text: 'Mainly clear', icon:'day-sunny-overcast'},
+    2: {text: 'Partly cloudy', icon:'day-cloudy'},
+    3: {text: 'Overcast', icon:'cloudy'},
+    45: {text: 'Foggy', icon:'fog'},
+    51: {text: 'Light drizzle', icon:'sprinkle'},
+    61: {text: 'Light rain', icon:'rain'},
+    63: {text: 'Moderate rain', icon:'rain'},
+    65: {text: 'Heavy rain', icon:'rain-wind'},
+    71: {text: 'Light snow', icon:'snow'},
+    73: {text: 'Moderate snow', icon:'snow'},
+    75: {text: 'Heavy snow', icon:'snow-wind'},
+    95: {text: 'Thunderstorm', icon:'thunderstorm'}
   }
-  return conditions[code] || 'Unknown';
+  return conditions[code] || {text: 'Unknown', icon: 'cloudy'};
 }

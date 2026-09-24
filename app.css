@@ -169,7 +169,7 @@ Box Shadow: rgba(0, 0, 0, 0.15);
 /* Forecast row */
 .forecast-row {
   display: flex;
-  gap: 0.3rem;
+  gap: 1.5rem;
   overflow-x: auto;
   margin-top: 3rem;
   justify-content: center; 
@@ -188,8 +188,8 @@ Box Shadow: rgba(0, 0, 0, 0.15);
 }
 
 .forecast-weather-img {
-  width: 2rem;
-  height: 2rem;
+  width: 5rem;
+  height: 5rem;
 }
 
 .forecast-temp {
