@@ -8,6 +8,10 @@ const detailCityName = document.querySelector('.js-detail-city-name');
 const detailCityTemp = document.querySelector('.js-detail-city-temp');
 const detailCityConditions = document.querySelector('.js-detail-city-conditons');
 const detailCityHighlow = document.querySelector('.js-detail-city-highlow');
+const detailCityFeelsLike = document.querySelector('.js-feels-like-temp');
+const detailCityWind = document.querySelector('.js-wind-stat');
+const detailCityPrecipitation = document.querySelector('.js-precipitation-stat');
+const detailCityAirQuality = document.querySelector('.js-air-quality-state');
 
 /* Fetches the coordinates for the city name, latitude, and longitude
   @param {string} cityName - The name of the city to look up
@@ -29,7 +33,18 @@ async function getCoordinates(cityName) {
   @returns {PromiseObject} - An object containing the current forecast data
 */
 async function getWeather(lat, lon) {
-  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto&forecast_days=10`);
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum&timezone=auto&forecast_days=10&windspeed_unit=mph&hourly=apparent_temperature&precipitation_unit=inch`);
+  const data = await response.json();
+  return data;
+}
+
+/* Fetches the current air quality for the specific geographic coordinates
+  @param {number} lat - the latitude
+  @param {number} lon - the longitude
+  @returns {PromiseObject} - An object containing the current air quality data
+*/
+async function getAirQuality(lat, lon) {
+  const response = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi&timezone=auto`);
   const data = await response.json();
   return data;
 }
@@ -55,7 +70,8 @@ async function searchCity(cityName) {
     errorEl.classList.add('hidden');
     const cords = await getCoordinates(cityName);
     const weather = await getWeather(cords.latitude, cords.longitude);
-    renderDetailView(cords, weather);
+    const airQuality = await getAirQuality(cords.latitude, cords.longitude);
+    renderDetailView(cords, weather, airQuality);
     renderForecast(weather);
     console.log(`Weather for ${cords.name}:`, weather);
     showDetailView();
@@ -108,17 +124,44 @@ searchInput.addEventListener('keydown', (event) => {
 backBtn.addEventListener('click', showDashboard);
 
 // Get city name and fetches the data and displays it
-function renderDetailView(cords, weather) {
+function renderDetailView(cords, weather, airQuality) {
   const currentTemp = Math.round(weather.current_weather.temperature);
   const maxTemp = Math.round(weather.daily.temperature_2m_max[0]);
   const minTemp = Math.round(weather.daily.temperature_2m_min[0]);
+  const feelsLike = Math.round(weather.hourly.apparent_temperature[0]);
+  const wind = Math.round(weather.current_weather.windspeed);
+  const precipitation = weather.daily.precipitation_sum[0].toFixed(2);
+  const aqi = Math.round(airQuality.current.us_aqi);
   detailCityName.textContent = cords.name;
   detailCityTemp.textContent = `${currentTemp}°`;
   detailCityConditions.textContent = 
     getWeatherDescription(weather.current_weather.weathercode).text;
   detailCityHighlow.textContent = `H:${maxTemp}° L:${minTemp}°`;
+  detailCityFeelsLike.textContent = `${feelsLike}°`;
+  detailCityWind.textContent = `${wind} mph`;
+  detailCityPrecipitation.textContent = `${precipitation}" Today`;
+  detailCityAirQuality.textContent = `${aqi} ${getAqiDescription(aqi)}`;
 }
 
+/* Determines the text rating for the given Air Quality Index value
+  @param {number} aqi - The US AQI number
+  @returns {string} - The text ratin
+*/
+function getAqiDescription(aqi) {
+  if (aqi <= 50) {
+    return 'Very Good';
+  } else if (aqi <= 100) {
+    return 'Good';
+  } else if (aqi <= 150) {
+    return 'Fair';
+  } else if (aqi <= 200) {
+    return 'Poor';
+  } else if (aqi <= 500) {
+    return 'Very Poor';
+  } else {
+    return 'Unknown';
+  }
+}
 
 /*  Gets the city condition
 @returns {Object} - the conditions from the city and the image 
@@ -141,3 +184,4 @@ function getWeatherDescription(code) {
   }
   return conditions[code] || {text: 'Unknown', icon: 'cloudy'};
 }
+
