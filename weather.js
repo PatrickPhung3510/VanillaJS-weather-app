@@ -1,3 +1,4 @@
+let currentCity = null;
 const searchInput = document.querySelector('.js-search-bar');
 const searchBtn = document.querySelector('.js-search-btn')
 const dashboard = document.querySelector('#dashboard-view');
@@ -12,6 +13,7 @@ const detailCityFeelsLike = document.querySelector('.js-feels-like-temp');
 const detailCityWind = document.querySelector('.js-wind-stat');
 const detailCityPrecipitation = document.querySelector('.js-precipitation-stat');
 const detailCityAirQuality = document.querySelector('.js-air-quality-state');
+const saveBtn = document.querySelector('.js-save-btn');
 
 /* Fetches the coordinates for the city name, latitude, and longitude
   @param {string} cityName - The name of the city to look up
@@ -123,6 +125,23 @@ searchInput.addEventListener('keydown', (event) => {
 
 backBtn.addEventListener('click', showDashboard);
 
+saveBtn.addEventListener('click', () => {
+  const cities = getSavedCities();
+  const alreadySaved = cities.some(city => city.name === currentCity.name);
+  
+  if (alreadySaved) {
+    const updatedCities = cities.filter(city => city.name !== currentCity.name);
+    saveCities(updatedCities);
+    saveBtn.textContent = '☆';
+    saveBtn.classList.remove('saved');
+  } else {
+    cities.push(currentCity);
+    saveCities(cities);
+    saveBtn.textContent = '★';
+    saveBtn.classList.add('saved');
+  }
+});
+
 // Get city name and fetches the data and displays it
 function renderDetailView(cords, weather, airQuality) {
   const currentTemp = Math.round(weather.current_weather.temperature);
@@ -136,13 +155,40 @@ function renderDetailView(cords, weather, airQuality) {
   detailCityTemp.textContent = `${currentTemp}°`;
   detailCityConditions.textContent = 
     getWeatherDescription(weather.current_weather.weathercode).text;
+  currentCity = {name: cords.name, latitude: cords.latitude, longitude: cords.longitude, 
+    weathercode: weather.current_weather.weathercode, temp: currentTemp};
   detailCityHighlow.textContent = `H:${maxTemp}° L:${minTemp}°`;
   detailCityFeelsLike.textContent = `${feelsLike}°`;
   detailCityWind.textContent = `${wind} mph`;
   detailCityPrecipitation.textContent = `${precipitation}" Today`;
   detailCityAirQuality.textContent = `${aqi} ${getAqiDescription(aqi)}`;
+
+  const cities = getSavedCities();
+  const isSaved = cities.some(city => city.name === currentCity.name);
+  if (isSaved) {
+    saveBtn.textContent = '★';
+    saveBtn.classList.add('saved');
+  } else {
+    saveBtn.textContent = '☆';
+    saveBtn.classList.remove('saved');
+  }
 }
 
+/* Retrieves the list of saved cities from local storage
+  @returns {Array} - An array of saved city objects, or an empty array if none exist
+*/
+function getSavedCities() {
+  const saved = localStorage.getItem('savedCities');
+  return saved ? JSON.parse(saved) : [];
+}
+
+/* Saves the updated array of cities to local storage
+  @param {Array} cities - The array of city objects to store
+*/
+function saveCities(cities) {
+  localStorage.setItem('savedCities', JSON.stringify(cities));
+}
+ 
 /* Determines the text rating for the given Air Quality Index value
   @param {number} aqi - The US AQI number
   @returns {string} - The text ratin
