@@ -107,6 +107,32 @@ function renderForecast(weather) {
   forecastRow.innerHTML = foreCastHTML;
 }
 
+/* Render the save cities in a card. User click on card to access the detail
+   view of their saved card
+*/
+function renderSaveCard() {
+  const saveCityCard = document.querySelector('.js-city-cards');
+  const cities = getSavedCities();
+  const cardHTML = cities.map((city) => {
+    const condition = getWeatherDescription(city.weathercode);
+    return `
+      <div class="city-card">
+        <h2 class="city-name">${city.name}</h2>
+        <p class="city-condition">${condition.text}</p>
+        <p class="city-temp">${city.temp}°</p>
+      </div>
+    `
+  }).join('');
+  saveCityCard.innerHTML = cardHTML;
+
+  const cardElements = document.querySelectorAll('.city-card');
+  cardElements.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      searchCity(cities[index].name);
+    });
+  });
+}
+
 // Grabs the input value and triggers the city search
 function handleSearch() {
   const cityName = searchInput.value.trim();
@@ -140,6 +166,7 @@ saveBtn.addEventListener('click', () => {
     saveBtn.textContent = '★';
     saveBtn.classList.add('saved');
   }
+  renderSaveCard();
 });
 
 // Get city name and fetches the data and displays it
@@ -231,3 +258,4 @@ function getWeatherDescription(code) {
   return conditions[code] || {text: 'Unknown', icon: 'cloudy'};
 }
 
+renderSaveCard();
