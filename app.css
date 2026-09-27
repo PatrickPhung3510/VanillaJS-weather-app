@@ -136,6 +136,7 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 650px;
   margin-inline: auto;
+  padding: 0 1.5rem;
 }
 
  /* Back Button */
@@ -198,7 +199,10 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   gap: 1.5rem;
   overflow-x: auto;
   margin-top: 3rem;
-  justify-content: center; 
+  padding: 0 1.5rem;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
 }
 
 .forecast-day {
@@ -256,4 +260,58 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   text-align: left;
   padding-left: 10rem;
   font-size: 1.5rem;
+}
+
+/* ---------------------------------------------------- */
+/* Responsive Design */
+/* ---------------------------------------------------- */
+
+/* Tablets and small laptops: 768px and below */
+@media (max-width: 48rem) {
+  /* 768px / 16px = 48rem */
+
+  .detail-actions {
+    max-width: 90%;
+  }
+}
+
+/* Phones: 480px and below */
+@media (max-width: 30rem) {
+  /* 480px / 16px = 30rem */
+
+  body {
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .forecast-row {
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feels-like,
+  .precipitation,
+  .wind,
+  .air-quality {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+  }
+}
+
+/* Small phones: 340px and below */
+@media (max-width: 21.25rem) {
+  /* 340px / 16px = 21.25rem */
+
+  .welcome-note {
+    font-size: 1.5rem;
+  }
+
+  .air-quality-state {
+  white-space: nowrap;
+}
 }
