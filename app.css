@@ -189,9 +189,13 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   font-size: 3rem;
 }
 
-/* .detail-city-conditons {
-  //Add more later 
-} */
+ .detail-city-conditions {
+  font-size: 1.5rem;
+} 
+
+.detail-city-highlow {
+  font-size: 1.5rem;
+}
 
 /* Forecast row */
 .forecast-row {
@@ -265,6 +269,73 @@ Box Shadow: rgba(0, 0, 0, 0.15);
 /* ---------------------------------------------------- */
 /* Responsive Design */
 /* ---------------------------------------------------- */
+/* Main Page */
+.city-card {
+  width: 90%;
+  max-width: 90%;
+}
+
+.welcome-note {
+  font-size: 1.5rem;
+}
+
+.city-name,
+.city-temp,
+.city-condition {
+  font-size: 1.25rem;
+}
+
+.city-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+
+/* 3. Larger Screens / Tablet & Desktop Adjustments */
+@media (min-width: 37rem) { /* 592px and up */
+  .city-card {
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 77rem) { /* 1232px and up */
+  .city-card {
+    max-width: 40%;
+  }
+}
+
+@media (min-width: 118rem) { /* 1888px and up */
+  .city-card {
+    max-width: 25%;
+  }
+}
+
+/* Deatil Page */
+/* Laptops and larger devices */
+@media(max-width: 78rem) {
+  /* 1248px / 16 px = 78rem */
+  .forecast-row {
+    justify-content: flex-start;
+  }
+
+  .feels-like,
+  .precipitation,
+  .wind,
+  .air-quality {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .air-quality-state {
+    white-space: nowrap;
+  }
+
+  .stats-grid {
+    column-gap: clamp(2rem, 12vw, 15rem);
+ }
+}
 
 /* Tablets and small laptops: 768px and below */
 @media (max-width: 48rem) {
@@ -273,6 +344,10 @@ Box Shadow: rgba(0, 0, 0, 0.15);
   .detail-actions {
     max-width: 90%;
   }
+
+ .stats-grid {
+  gap: 2.5rem;
+ }
 }
 
 /* Phones: 480px and below */
@@ -286,20 +361,11 @@ Box Shadow: rgba(0, 0, 0, 0.15);
 
   .forecast-row {
     gap: 1rem;
-    justify-content: flex-start;
   }
 
-  .stats-grid {
+   .stats-grid {
     grid-template-columns: 1fr;
-  }
-
-  .feels-like,
-  .precipitation,
-  .wind,
-  .air-quality {
-    padding-left: 0;
-    padding-right: 0;
-    text-align: center;
+    gap: 1rem;
   }
 }
 
@@ -309,9 +375,5 @@ Box Shadow: rgba(0, 0, 0, 0.15);
 
   .welcome-note {
     font-size: 1.5rem;
-  }
-
-  .air-quality-state {
-    white-space: nowrap;
   }
 }
