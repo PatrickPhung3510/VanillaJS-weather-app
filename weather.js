@@ -174,7 +174,9 @@ function renderDetailView(cords, weather, airQuality) {
   const currentTemp = Math.round(weather.current_weather.temperature);
   const maxTemp = Math.round(weather.daily.temperature_2m_max[0]);
   const minTemp = Math.round(weather.daily.temperature_2m_min[0]);
-  const feelsLike = Math.round(weather.hourly.apparent_temperature[0]);
+  const currentHour = weather.current_weather.time.slice(0, 13);
+  const hourIndex = weather.hourly.time.findIndex(t => t.startsWith(currentHour));
+  const feelsLike = Math.round(weather.hourly.apparent_temperature[hourIndex]);
   const wind = Math.round(weather.current_weather.windspeed);
   const precipitation = weather.daily.precipitation_sum[0].toFixed(2);
   const aqi = Math.round(airQuality.current.us_aqi);
