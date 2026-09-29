@@ -95,7 +95,7 @@ function renderForecast(weather) {
     const weatherCondition = getWeatherDescription(weather.daily.weathercode[index]);
     const dayHigh = Math.round(weather.daily.temperature_2m_max[index]);
     const dayLow = Math.round(weather.daily.temperature_2m_min[index]);
-    const iconURL = `https://api.iconify.design/wi/${weatherCondition.icon}.svg`;
+    const iconURL = `https://api.iconify.design/wi/${weatherCondition.icon}.svg?color=${encodeURIComponent(weatherCondition.iconColor)}`;
     return `
       <div class="forecast-day">
          <p class="forecast-day-name">${dayName}</p>
@@ -116,7 +116,7 @@ function renderSaveCard() {
   const cardHTML = cities.map((city) => {
     const condition = getWeatherDescription(city.weathercode);
     return `
-      <div class="city-card">
+      <div class="city-card" style="background-color: ${condition.color}"> 
         <h2 class="city-name">${city.name}</h2>
         <p class="city-condition">${condition.text}</p>
         <p class="city-temp">${city.temp}°</p>
@@ -241,21 +241,21 @@ function getAqiDescription(aqi) {
 */
 function getWeatherDescription(code) {
   const conditions = {
-    0: {text: 'Clear sky', icon:'day-sunny'},
-    1: {text: 'Mainly clear', icon:'day-sunny-overcast'},
-    2: {text: 'Partly cloudy', icon:'day-cloudy'},
-    3: {text: 'Overcast', icon:'cloudy'},
-    45: {text: 'Foggy', icon:'fog'},
-    51: {text: 'Light drizzle', icon:'sprinkle'},
-    61: {text: 'Light rain', icon:'rain'},
-    63: {text: 'Moderate rain', icon:'rain'},
-    65: {text: 'Heavy rain', icon:'rain-wind'},
-    71: {text: 'Light snow', icon:'snow'},
-    73: {text: 'Moderate snow', icon:'snow'},
-    75: {text: 'Heavy snow', icon:'snow-wind'},
-    95: {text: 'Thunderstorm', icon:'thunderstorm'}
+    0: {text: 'Clear sky', icon:'day-sunny', color:'#bfdbfe', iconColor: '#FFB300'},
+    1: {text: 'Mainly clear', icon:'day-sunny-overcast', color:'#bfdbfe', iconColor: '#FFD166'},
+    2: {text: 'Partly cloudy', icon:'day-cloudy', color:'#bfdbfe', iconColor: '#FFAA00'},
+    3: {text: 'Overcast', icon:'cloudy', color:'#d1d5db', iconColor: '#4b5563'},
+    45: {text: 'Foggy', icon:'fog', color:'#d1d5db', iconColor: '#6b7280'},
+    51: {text: 'Light drizzle', icon:'sprinkle', color:'#93c5fd', iconColor: '#3b82f6'},
+    61: {text: 'Light rain', icon:'rain', color:'#93c5fd', iconColor: '#2563eb'},
+    63: {text: 'Moderate rain', icon:'rain', color:'#93c5fd', iconColor: '#1d4ed8'},
+    65: {text: 'Heavy rain', icon:'rain-wind', color:'#93c5fd', iconColor: '#1e40af'},
+    71: {text: 'Light snow', icon:'snow', color:'#e0f2fe', iconColor: '#38bdf8'},
+    73: {text: 'Moderate snow', icon:'snow', color:'#e0f2fe', iconColor: '#0ea5e9'},
+    75: {text: 'Heavy snow', icon:'snow-wind', color:'#e0f2fe', iconColor: '#0284c7'},
+    95: {text: 'Thunderstorm', icon:'thunderstorm', color:'#93c5fd', iconColor: '#facc15'}
   }
-  return conditions[code] || {text: 'Unknown', icon: 'cloudy'};
+  return conditions[code] || {text: 'Unknown', icon: 'cloudy', color: '#d1d5db', iconColor: '#6b7280'};
 }
 
 renderSaveCard();
