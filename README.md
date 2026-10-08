@@ -25,11 +25,11 @@ A weather dashboard built with Vanilla JavaScript. Searches any city, display th
 ## What I learned
 - **Chaining async calls** a search runs a geocoding support request, then a weather request, and so on. I used async/await with a try/catch so any failure would show that a "city is not found" message.
 
--**Parallel arrays from the APIs.** daily forecast data were in separate arrays (dates, temperature, weather code) that was lined up by index. Thus, I used .map() with the index to build each forecast day.
+- **Parallel arrays from the APIs.** daily forecast data were in separate arrays (dates, temperature, weather code) that was lined up by index. Thus, I used .map() with the index to build each forecast day.
 
--**Finding current hour** "feels like" data was an hourly array converting 10 days, so I used .slice() and .findIndex() to match the current hour instead of defaulting to midnight.
+- **Finding current hour** "feels like" data was an hourly array converting 10 days, so I used .slice() and .findIndex() to match the current hour instead of defaulting to midnight.
 
--**Dynamic UI** saved cities were stored as JSON in localStorage and rendering into cards, with a click listener that goes back to the detailed view each time the list re-renders.
+- **Dynamic UI** saved cities were stored as JSON in localStorage and rendering into cards, with a click listener that goes back to the detailed view each time the list re-renders.
 
 ## Credits
 Weather data provided by [Open-Meteo](https://open-meteo.com/). Icons from [Weather Icons](https://erikflowers.github.io/weather-icons/) by Erik Flowers.
