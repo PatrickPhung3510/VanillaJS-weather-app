@@ -23,7 +23,7 @@ A weather dashboard built with Vanilla JavaScript. Searches any city, display th
 - [Weather Icons] (https://erikflowers.github.io/weather-icons/) via the Iconfiy API
 
 ## What I learned
--**Chaining async calls** a search runs a geocoding support request, then a weather request, and so on. I used async/await with a try/catch so any failure would show that a "city is not found" message.
+- **Chaining async calls** a search runs a geocoding support request, then a weather request, and so on. I used async/await with a try/catch so any failure would show that a "city is not found" message.
 
 -**Parallel arrays from the APIs.** daily forecast data were in separate arrays (dates, temperature, weather code) that was lined up by index. Thus, I used .map() with the index to build each forecast day.
 
