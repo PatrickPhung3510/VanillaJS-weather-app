@@ -1,11 +1,11 @@
-#WeatherNow
+##WeatherNow
 
 A weather dashboard built with Vanilla JavaScript. Searches any city, display the current condition, a 10-day forecast, and saves the city for quick access on the main page.
 
 **[Live Demo](https://patrickphung3510.github.io/VanillaJS-weather-app/)**
 
-![Dashboard screenshot]()
-![Detail view screenshot]()
+![Dashboard screenshot](img/Main-Page.png)
+![Detail view screenshot](img/Detailed-Page.png)
 
 ## Features
 - Search city worldwide by name
